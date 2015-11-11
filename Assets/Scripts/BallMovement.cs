@@ -13,35 +13,49 @@ public class BallMovement : MonoBehaviour
     SpriteRenderer barRenderer;
     Rigidbody2D ballRigidbody;
     Collider2D ballCollider;
+    private Renderer ballRenderer;
+    private float ballVeloX;
+    private float ballVeloY;
     void Start()
     {
+        ballRenderer = GetComponent<Renderer>();
         ballCollider = GetComponent<Collider2D>();
         ballRigidbody = GetComponent<Rigidbody2D>();
         forceAtStart = new Vector2(forceX, forceY);
         ifFirstForce = false;
     }
-    void OnCollisionEnter2D(Collision2D other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            float x = other.transform.position.x;
-        }
-        else if(other.gameObject.tag == "Brick")
-        {
-            Debug.Log("hahaha");
-            Destroy(other.gameObject);
-        }
-    }
+    
     void Awake()
     {
         cam = GameObject.Find("Main Camera");
         sth = cam.GetComponent<LevelStart>();
         bar = GameObject.Find("Bar");
         barRenderer = bar.GetComponent<SpriteRenderer>();
+        Debug.Log(barRenderer.bounds.size.x);
     }
     
-    
-    
+    public void checkXSpeed()
+    {
+        ballVeloX = ballRigidbody.velocity.x;
+       // if ((ballVeloX < 2 && ballVeloX> 0)|| (ballVeloX > -2 && ballVeloX < 0))
+           // ballRigidbody.AddForce(new Vector2((2 - ballVeloX) * 50, 0));
+        if (ballVeloX > 4)
+            ballVeloX = 4;
+        else if (ballVeloX < -4)
+            ballVeloX = -4;
+    }
+    public void checkYSpeed()
+    {
+        ballVeloY = ballRigidbody.velocity.y;
+        if ((ballVeloY < 3 && ballVeloY > 0)||(ballVeloY > -3 && ballVeloY < 0))
+            ballRigidbody.AddForce(new Vector2(0, (3 - ballVeloY) * 50));
+        if (ballVeloY > 6.5f)
+            ballVeloY = 6.5f;
+        else if (ballVeloY < -6.5f)
+            ballVeloY = -6.5f;
+    }
+
+
     void Update()
     {
         if(!sth.levelStart)
@@ -55,6 +69,10 @@ public class BallMovement : MonoBehaviour
                 ballRigidbody.AddForce(forceAtStart);
                 ifFirstForce = !ifFirstForce;
             }
+            checkXSpeed();
+            checkYSpeed();
+            //Debug.Log(ballVeloX);
+            //Debug.Log(ballVeloY);
         }
     }
     

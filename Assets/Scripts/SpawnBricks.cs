@@ -5,7 +5,7 @@ public class SpawnBricks : MonoBehaviour {
 
     public Transform prefab;
     private Renderer rend;
-    private int numOfBricks;
+    public int numOfBricks;
 	// Use this for initialization
 	void Start () {
         rend = prefab.GetComponent<Renderer>();

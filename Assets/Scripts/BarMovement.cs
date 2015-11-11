@@ -3,16 +3,18 @@ using System.Collections;
 
 public class BarMovement : MonoBehaviour
 {
-
-    // Use this for initialization
-    void Start()
+    void Move()
     {
-
+        transform.position = new Vector3(transform.position.x + Input.GetAxis("Horizontal") * Time.deltaTime * 10, transform.position.y);
     }
-
-    // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(transform.position.x + Input.GetAxis("Horizontal") * Time.deltaTime*10, transform.position.y);
+        if (transform.position.x <= -8.2f && Input.GetAxis("Horizontal") > 0)
+            Move();
+        else if (transform.position.x >= 8.2f && Input.GetAxis("Horizontal") < 0)
+            Move();
+        else if (transform.position.x < 8.2f && transform.position.x > -8.2f)
+            Move();
+
     }
 }
